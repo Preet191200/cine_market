@@ -1,0 +1,28 @@
+<div class="container my-5">
+  <div class="row g-5">
+    <div class="col-md-5">
+      <% if @product.image.attached? %>
+        <%= image_tag @product.image, class: "img-fluid rounded shadow" %>
+      <% else %>
+        <div class="product-img-placeholder-lg d-flex align-items-center justify-content-center rounded">
+          <span style="font-size: 8rem;">🎬</span>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-7">
+      <small class="gold-text text-uppercase tracking-wide"><%= @product.category.name %></small>
+      <h1 class="text-white fw-bold mt-2"><%= @product.title %></h1>
+      <div class="gold-text fs-3 fw-bold my-3">$<%= number_with_precision(@product.price, precision: 2) %></div>
+      <p class="text-muted"><%= @product.description %></p>
+      <div class="mt-2 mb-4">
+        <% if @product.stock_quantity > 0 %>
+          <span class="badge bg-success">In Stock (<%= @product.stock_quantity %> available)</span>
+        <% else %>
+          <span class="badge bg-danger">Out of Stock</span>
+        <% end %>
+      </div>
+      <button class="btn btn-gold btn-lg px-5">Add to Cart</button>
+      <%= link_to "← Back to Browse", products_path, class: "btn btn-outline-secondary ms-3" %>
+    </div>
+  </div>
+</div>
