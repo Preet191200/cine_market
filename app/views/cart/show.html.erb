@@ -28,6 +28,7 @@
               <div class="gold-text fw-bold mt-1">
                 $<%= number_with_precision(item[:product].price, precision: 2) %>
               </div>
+              
 
               <%# Quantity editor %>
        <%= form_with url: update_cart_path(item[:product].id), method: :patch, class: "d-flex align-items-center gap-2 mt-2" do |f| %>
@@ -65,11 +66,11 @@
             <span>Total</span>
             <span class="gold-text">$<%= number_with_precision(@total, precision: 2) %></span>
           </div>
-          <% if user_signed_in? %>
-            <%= link_to "Proceed to Checkout →", "#", class: "btn btn-gold w-100 btn-lg" %>
-          <% else %>
-            <%= link_to "Sign in to Checkout", new_user_session_path, class: "btn btn-gold w-100 btn-lg" %>
-          <% end %>
+         <% if user_signed_in? %>
+  <%= link_to "Proceed to Checkout →", checkout_path, class: "btn btn-gold w-100 btn-lg" %>
+<% else %>
+  <%= link_to "Sign in to Checkout", new_user_session_path, class: "btn btn-gold w-100 btn-lg" %>
+<% end %>
           <%= link_to "← Continue Shopping", products_path, class: "btn btn-outline-secondary w-100 mt-2" %>
         </div>
       </div>

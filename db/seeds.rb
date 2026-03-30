@@ -3,7 +3,32 @@ OrderItem.delete_all rescue nil
 Order.delete_all rescue nil
 Product.delete_all
 Category.delete_all
+# Provinces with tax rates
+provinces_data = [
+  { name: "Alberta",                    gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00 },
+  { name: "British Columbia",           gst_rate: 0.05, pst_rate: 0.07, hst_rate: 0.00 },
+  { name: "Manitoba",                   gst_rate: 0.05, pst_rate: 0.07, hst_rate: 0.00 },
+  { name: "New Brunswick",              gst_rate: 0.00, pst_rate: 0.00, hst_rate: 0.15 },
+  { name: "Newfoundland and Labrador",  gst_rate: 0.00, pst_rate: 0.00, hst_rate: 0.15 },
+  { name: "Northwest Territories",      gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00 },
+  { name: "Nova Scotia",                gst_rate: 0.00, pst_rate: 0.00, hst_rate: 0.15 },
+  { name: "Nunavut",                    gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00 },
+  { name: "Ontario",                    gst_rate: 0.00, pst_rate: 0.00, hst_rate: 0.13 },
+  { name: "Prince Edward Island",       gst_rate: 0.00, pst_rate: 0.00, hst_rate: 0.15 },
+  { name: "Quebec",                     gst_rate: 0.05, pst_rate: 0.09975, hst_rate: 0.00 },
+  { name: "Saskatchewan",               gst_rate: 0.05, pst_rate: 0.06, hst_rate: 0.00 },
+  { name: "Yukon",                      gst_rate: 0.05, pst_rate: 0.00, hst_rate: 0.00 },
+]
 
+provinces_data.each do |p|
+  Province.find_or_create_by!(name: p[:name]) do |prov|
+    prov.gst_rate = p[:gst_rate]
+    prov.pst_rate = p[:pst_rate]
+    prov.hst_rate = p[:hst_rate]
+  end
+end
+
+puts "✓ #{Province.count} provinces created"
 # Categories
 classic    = Category.find_or_create_by!(name: "Classic Films")
 action     = Category.find_or_create_by!(name: "Action & Thriller")

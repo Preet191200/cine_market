@@ -205,3 +205,21 @@ body {
   position: sticky;
   top: 80px;
 }
+// ── Forms ─────────────────────────────────────────────
+.dark-input {
+  background-color: #1c1c1c !important;
+  border-color: #3a3a3a !important;
+  color: white !important;
+
+  &:focus {
+    background-color: #222 !important;
+    border-color: $gold !important;
+    box-shadow: 0 0 0 0.2rem rgba(201, 168, 76, 0.15) !important;
+    color: white !important;
+  }
+
+  option {
+    background-color: #1c1c1c;
+    color: white;
+  }
+}

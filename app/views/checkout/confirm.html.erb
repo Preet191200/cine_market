@@ -1,0 +1,78 @@
+<div class="container my-5">
+  <h2 class="section-title mb-4">Review Your Order</h2>
+  <div class="row g-4">
+
+    <div class="col-lg-7">
+      <div class="cart-summary p-4 mb-4">
+        <h5 class="text-white mb-4">Order Details</h5>
+        <% @cart_items.each do |item| %>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex align-items-center gap-2">
+              <% if item[:product].poster_url.present? %>
+                <img src="<%= item[:product].poster_url %>" style="width:40px;height:55px;object-fit:cover;border-radius:3px;">
+              <% end %>
+              <div>
+                <div class="text-white small"><%= item[:product].title.truncate(30) %></div>
+                <small class="text-muted">Qty: <%= item[:quantity] %></small>
+              </div>
+            </div>
+            <span class="gold-text">$<%= number_with_precision(item[:subtotal], precision: 2) %></span>
+          </div>
+        <% end %>
+        <hr class="border-secondary">
+
+        <%# Tax Breakdown %>
+        <div class="d-flex justify-content-between text-muted mb-2">
+          <span>Subtotal</span>
+          <span>$<%= number_with_precision(@subtotal, precision: 2) %></span>
+        </div>
+        <% if @hst > 0 %>
+          <div class="d-flex justify-content-between text-muted mb-2">
+            <span>HST (<%= number_to_percentage(@province.hst_rate * 100, precision: 0) %>)</span>
+            <span>$<%= number_with_precision(@hst, precision: 2) %></span>
+          </div>
+        <% end %>
+        <% if @gst > 0 %>
+          <div class="d-flex justify-content-between text-muted mb-2">
+            <span>GST (<%= number_to_percentage(@province.gst_rate * 100, precision: 0) %>)</span>
+            <span>$<%= number_with_precision(@gst, precision: 2) %></span>
+          </div>
+        <% end %>
+        <% if @pst > 0 %>
+          <div class="d-flex justify-content-between text-muted mb-2">
+            <span>PST (<%= number_to_percentage(@province.pst_rate * 100, precision: 3) %>)</span>
+            <span>$<%= number_with_precision(@pst, precision: 2) %></span>
+          </div>
+        <% end %>
+        <hr class="border-secondary">
+        <div class="d-flex justify-content-between text-white fw-bold fs-5">
+          <span>Total</span>
+          <span class="gold-text">$<%= number_with_precision(@total, precision: 2) %></span>
+        </div>
+      </div>
+
+      <%# Confirm form — passes all params to create %>
+      <%= form_with url: checkout_create_path, method: :post do |f| %>
+        <%= f.hidden_field :province_id, value: params[:province_id] %>
+        <%= f.hidden_field :street,      value: params[:street] %>
+        <%= f.hidden_field :city,        value: params[:city] %>
+        <%= f.hidden_field :postal_code, value: params[:postal_code] %>
+        <div class="d-flex gap-3">
+          <%= link_to "← Edit Address", checkout_path, class: "btn btn-outline-secondary flex-grow-1" %>
+          <%= f.submit "Place Order", class: "btn btn-gold flex-grow-1 btn-lg" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="cart-summary p-4">
+        <h5 class="text-white mb-3">Shipping To</h5>
+        <p class="text-muted mb-1"><%= params[:street] %></p>
+        <p class="text-muted mb-1"><%= params[:city] %></p>
+        <p class="text-muted mb-1"><%= @province.name %></p>
+        <p class="text-muted"><%= params[:postal_code] %></p>
+      </div>
+    </div>
+
+  </div>
+</div>

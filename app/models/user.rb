@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :orders
   has_one :address
 
+  validates :name, presence: true
+
   def self.ransackable_attributes(auth_object = nil)
     ["id", "name", "email", "created_at", "updated_at"]
   end
