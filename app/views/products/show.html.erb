@@ -24,12 +24,14 @@
         <% end %>
       </div>
 
-      <% if user_signed_in? %>
-        <button class="btn btn-gold btn-lg px-5 me-3">🛒 Add to Cart</button>
-      <% else %>
-        <%= link_to "Sign in to Purchase", new_user_session_path, class: "btn btn-gold btn-lg px-5 me-3" %>
-      <% end %>
-      <%= link_to "← Back to Browse", products_path, class: "btn btn-outline-secondary" %>
+     <% if user_signed_in? %>
+ <%= form_with url: add_to_cart_path(@product.id), method: :post, class: "d-inline" do |f| %>
+    <%= f.number_field :quantity, value: 1, min: 1, max: 99, class: "form-control d-inline-block w-auto me-2", style: "background:#222; border-color:#444; color:white;" %>
+    <%= f.submit "🛒 Add to Cart", class: "btn btn-gold btn-lg px-5" %>
+  <% end %>
+<% else %>
+  <%= link_to "Sign in to Purchase", new_user_session_path, class: "btn btn-gold btn-lg px-5 me-3" %>
+<% end %>
 
       <%# Comments section — coming soon %>
       <hr class="border-secondary mt-5">

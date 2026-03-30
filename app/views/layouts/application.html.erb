@@ -42,9 +42,14 @@
                 <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-gold ms-2" %>
               </li>
             <% end %>
-            <li class="nav-item ms-3">
-              <%= link_to "🛒 Cart", "#", class: "nav-link" %>
-            </li>
+          <li class="nav-item ms-3">
+ <%= link_to cart_path, class: "nav-link position-relative" do %>
+    🛒 Cart
+    <% if cart_count > 0 %>
+      <span class="cart-badge"><%= cart_count %></span>
+    <% end %>
+  <% end %>
+</li>
           </ul>
         </div>
       </div>

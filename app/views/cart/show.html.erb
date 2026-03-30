@@ -1,0 +1,78 @@
+<div class="container my-5">
+  <h2 class="section-title mb-4">Your Cart</h2>
+
+  <% if @cart_items.empty? %>
+    <div class="text-center py-5">
+      <div style="font-size: 5rem;">🛒</div>
+      <h4 class="text-white mt-3">Your cart is empty</h4>
+      <p class="text-muted">Browse our collection and add some titles</p>
+      <%= link_to "Browse Titles", products_path, class: "btn btn-gold mt-3" %>
+    </div>
+  <% else %>
+    <div class="row">
+      <div class="col-lg-8">
+        <% @cart_items.each do |item| %>
+          <div class="cart-item d-flex gap-3 mb-3 p-3">
+            <div class="cart-item-img">
+              <% if item[:product].poster_url.present? %>
+                <img src="<%= item[:product].poster_url %>" alt="<%= item[:product].title %>">
+              <% else %>
+                <div class="d-flex align-items-center justify-content-center h-100">
+                  <span>🎬</span>
+                </div>
+              <% end %>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="text-white mb-1"><%= item[:product].title %></h6>
+              <small class="text-muted"><%= item[:product].category.name %></small>
+              <div class="gold-text fw-bold mt-1">
+                $<%= number_with_precision(item[:product].price, precision: 2) %>
+              </div>
+
+              <%# Quantity editor %>
+       <%= form_with url: update_cart_path(item[:product].id), method: :patch, class: "d-flex align-items-center gap-2 mt-2" do |f| %>
+                <label class="text-muted small">Qty:</label>
+                <%= f.number_field :quantity, value: item[:quantity], min: 1, max: 99, class: "form-control form-control-sm qty-input" %>
+                <%= f.submit "Update", class: "btn btn-outline-secondary btn-sm" %>
+              <% end %>
+            </div>
+            <div class="text-end">
+              <div class="text-white fw-bold mb-3">
+                $<%= number_with_precision(item[:product].price * item[:quantity], precision: 2) %>
+              </div>
+          <%= link_to "✕ Remove",
+      remove_from_cart_path(item[:product].id),
+                    data: { turbo_method: :delete, turbo_confirm: "Remove this item?" },
+                    class: "btn btn-outline-danger btn-sm" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="cart-summary p-4">
+          <h5 class="text-white mb-4">Order Summary</h5>
+          <div class="d-flex justify-content-between text-muted mb-2">
+            <span>Subtotal (<%= @cart_items.sum { |i| i[:quantity] } %> items)</span>
+            <span>$<%= number_with_precision(@total, precision: 2) %></span>
+          </div>
+          <div class="d-flex justify-content-between text-muted mb-3">
+            <span>Shipping</span>
+            <span class="text-success">Free</span>
+          </div>
+          <hr class="border-secondary">
+          <div class="d-flex justify-content-between text-white fw-bold fs-5 mb-4">
+            <span>Total</span>
+            <span class="gold-text">$<%= number_with_precision(@total, precision: 2) %></span>
+          </div>
+          <% if user_signed_in? %>
+            <%= link_to "Proceed to Checkout →", "#", class: "btn btn-gold w-100 btn-lg" %>
+          <% else %>
+            <%= link_to "Sign in to Checkout", new_user_session_path, class: "btn btn-gold w-100 btn-lg" %>
+          <% end %>
+          <%= link_to "← Continue Shopping", products_path, class: "btn btn-outline-secondary w-100 mt-2" %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
