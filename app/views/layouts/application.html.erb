@@ -28,6 +28,9 @@
                 <%= link_to category.name, category_path(category), class: "nav-link" %>
               </li>
             <% end %>
+            <li class="nav-item">
+  <%= link_to "Browse & Search", products_path, class: "nav-link" %>
+</li>
           </ul>
          <% if user_signed_in? %>
   <li class="nav-item">
