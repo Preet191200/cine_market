@@ -51,12 +51,11 @@
         </div>
       </div>
 
-      <%# Confirm form — passes all params to create %>
-      <%= form_with url: checkout_create_path, method: :post do |f| %>
-        <%= f.hidden_field :province_id, value: params[:province_id] %>
-        <%= f.hidden_field :street,      value: params[:street] %>
-        <%= f.hidden_field :city,        value: params[:city] %>
-        <%= f.hidden_field :postal_code, value: params[:postal_code] %>
+      <%= form_with url: checkout_create_path, method: :post, data: { turbo: false } do |f| %>
+        <%= hidden_field_tag "province_id", @province.id %>
+        <%= hidden_field_tag "street",      @street %>
+        <%= hidden_field_tag "city",        @city %>
+        <%= hidden_field_tag "postal_code", @postal_code %>
         <div class="d-flex gap-3">
           <%= link_to "← Edit Address", checkout_path, class: "btn btn-outline-secondary flex-grow-1" %>
           <%= f.submit "Place Order", class: "btn btn-gold flex-grow-1 btn-lg" %>
@@ -67,10 +66,10 @@
     <div class="col-lg-5">
       <div class="cart-summary p-4">
         <h5 class="text-white mb-3">Shipping To</h5>
-        <p class="text-muted mb-1"><%= params[:street] %></p>
-        <p class="text-muted mb-1"><%= params[:city] %></p>
+        <p class="text-muted mb-1"><%= @street %></p>
+        <p class="text-muted mb-1"><%= @city %></p>
         <p class="text-muted mb-1"><%= @province.name %></p>
-        <p class="text-muted"><%= params[:postal_code] %></p>
+        <p class="text-muted"><%= @postal_code %></p>
       </div>
     </div>
 

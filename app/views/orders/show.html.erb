@@ -1,38 +1,61 @@
 <div class="container my-5">
-  <h2 class="section-title mb-4">My Orders</h2>
-  <% if @orders.empty? %>
-    <div class="text-center py-5">
-      <div style="font-size:5rem">📦</div>
-      <h4 class="text-white mt-3">No orders yet</h4>
-      <%= link_to "Browse Titles", products_path, class: "btn btn-gold mt-3" %>
-    </div>
-  <% else %>
-    <% @orders.each do |order| %>
-      <div class="cart-item p-4 mb-3">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h6 class="text-white mb-1">Order #<%= order.id %></h6>
-            <small class="text-muted"><%= order.created_at.strftime("%B %d, %Y") %></small>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="section-title mb-0">Order #<%= @order.id %></h2>
+    <span class="badge bg-<%= @order.status == 'paid' ? 'success' : @order.status == 'shipped' ? 'info' : 'warning' %> fs-6">
+      <%= @order.status.capitalize %>
+    </span>
+  </div>
+  <p class="text-muted">Placed on <%= @order.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="cart-summary p-4">
+        <h5 class="text-white mb-4">Items Ordered</h5>
+        <% @order.order_items.each do |item| %>
+          <div class="d-flex gap-3 align-items-center mb-3">
+            <% if item.product.poster_url.present? %>
+              <img src="<%= item.product.poster_url %>" style="width:50px;height:70px;object-fit:cover;border-radius:4px;">
+            <% end %>
+            <div class="flex-grow-1">
+              <div class="text-white"><%= item.product.title %></div>
+              <small class="text-muted">Qty: <%= item.quantity %> × $<%= number_with_precision(item.price_at_purchase, precision: 2) %></small>
+            </div>
+            <div class="gold-text fw-bold">
+              $<%= number_with_precision(item.price_at_purchase * item.quantity, precision: 2) %>
+            </div>
           </div>
-          <div class="text-end">
-            <div class="gold-text fw-bold">$<%= number_with_precision(order.total_price, precision: 2) %></div>
-            <span class="badge bg-<%= order.status == 'paid' ? 'success' : order.status == 'shipped' ? 'info' : 'warning' %>">
-              <%= order.status.capitalize %>
-            </span>
-          </div>
+        <% end %>
+        <hr class="border-secondary">
+        <div class="d-flex justify-content-between text-muted mb-2">
+          <span>Subtotal</span>
+          <span>$<%= number_with_precision(@order.order_items.sum { |i| i.price_at_purchase * i.quantity }, precision: 2) %></span>
+        </div>
+        <div class="d-flex justify-content-between text-muted mb-2">
+          <span>Tax</span>
+          <span>$<%= number_with_precision(@order.order_items.sum(&:tax_at_purchase), precision: 2) %></span>
         </div>
         <hr class="border-secondary">
-        <div class="d-flex gap-2 flex-wrap">
-          <% order.order_items.each do |item| %>
-            <% if item.product.poster_url.present? %>
-              <img src="<%= item.product.poster_url %>" style="width:40px;height:55px;object-fit:cover;border-radius:3px;" title="<%= item.product.title %>">
-            <% end %>
-          <% end %>
-        </div>
-        <div class="mt-3">
-          <%= link_to "View Order Details", order_path(order), class: "btn btn-outline-secondary btn-sm" %>
+        <div class="d-flex justify-content-between text-white fw-bold fs-5">
+          <span>Total</span>
+          <span class="gold-text">$<%= number_with_precision(@order.total_price, precision: 2) %></span>
         </div>
       </div>
-    <% end %>
-  <% end %>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="cart-summary p-4">
+        <h5 class="text-white mb-3">Shipping Address</h5>
+        <% if current_user.address %>
+          <p class="text-muted mb-1"><%= current_user.address.street %></p>
+          <p class="text-muted mb-1"><%= current_user.address.city %></p>
+          <p class="text-muted mb-1"><%= current_user.address.province.name %></p>
+          <p class="text-muted"><%= current_user.address.postal_code %></p>
+        <% end %>
+      </div>
+      <div class="mt-3">
+        <%= link_to "← Back to Orders", orders_path, class: "btn btn-outline-secondary w-100" %>
+        <%= link_to "Continue Shopping", products_path, class: "btn btn-gold w-100 mt-2" %>
+      </div>
+    </div>
+  </div>
 </div>

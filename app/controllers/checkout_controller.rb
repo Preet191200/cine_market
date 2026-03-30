@@ -10,20 +10,32 @@ class CheckoutController < ApplicationController
   end
 
   def confirm
-    @cart_items = build_cart_items
-    @province   = Province.find(params[:province_id])
-    @address    = params[:address]
-    @subtotal   = @cart_items.sum { |i| i[:subtotal] }
+    @cart_items  = build_cart_items
+    @subtotal    = @cart_items.sum { |i| i[:subtotal] }
+    @provinces   = Province.order(:name)
 
-    # Calculate taxes
+    province_id = params.dig(:checkout, :province_id) || params[:province_id]
+    street      = params.dig(:checkout, :street)      || params[:street]
+    city        = params.dig(:checkout, :city)        || params[:city]
+    postal_code = params.dig(:checkout, :postal_code) || params[:postal_code]
+
+    if province_id.blank?
+      redirect_to checkout_path, alert: "Please select a province." and return
+    end
+
+    @province    = Province.find(province_id)
+    @street      = street
+    @city        = city
+    @postal_code = postal_code
+
     if @province.hst_rate > 0
-      @hst       = (@subtotal * @province.hst_rate).round(2)
-      @gst       = 0
-      @pst       = 0
+      @hst = (@subtotal * @province.hst_rate).round(2)
+      @gst = 0
+      @pst = 0
     else
-      @gst       = (@subtotal * @province.gst_rate).round(2)
-      @pst       = (@subtotal * @province.pst_rate).round(2)
-      @hst       = 0
+      @gst = (@subtotal * @province.gst_rate).round(2)
+      @pst = (@subtotal * @province.pst_rate).round(2)
+      @hst = 0
     end
 
     @tax_total = @gst + @pst + @hst
@@ -32,8 +44,14 @@ class CheckoutController < ApplicationController
 
   def create
     @cart_items = build_cart_items
-    @province   = Province.find(params[:province_id])
     @subtotal   = @cart_items.sum { |i| i[:subtotal] }
+
+    province_id = params.dig(:checkout, :province_id) || params[:province_id]
+    street      = params.dig(:checkout, :street)      || params[:street]
+    city        = params.dig(:checkout, :city)        || params[:city]
+    postal_code = params.dig(:checkout, :postal_code) || params[:postal_code]
+
+    @province = Province.find(province_id)
 
     if @province.hst_rate > 0
       @hst = (@subtotal * @province.hst_rate).round(2)
@@ -49,10 +67,10 @@ class CheckoutController < ApplicationController
     @total     = @subtotal + @tax_total
 
     # Save address
-    address = current_user.address || current_user.build_address
-    address.street      = params[:street]
-    address.city        = params[:city]
-    address.postal_code = params[:postal_code]
+    address             = current_user.address || current_user.build_address
+    address.street      = street
+    address.city        = city
+    address.postal_code = postal_code
     address.province    = @province
     address.save
 
