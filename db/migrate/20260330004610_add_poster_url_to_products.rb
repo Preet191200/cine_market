@@ -1,0 +1,5 @@
+class AddPosterUrlToProducts < ActiveRecord::Migration[8.1]
+  def change
+    add_column :products, :poster_url, :string
+  end
+end

@@ -2,9 +2,9 @@
 <div class="hero-banner d-flex align-items-center">
   <div class="container text-center">
     <h1 class="display-3 fw-bold text-white mb-3">
-      The World's Finest <span class="gold-text">Movie Posters</span>
+      The World's Finest <span class="gold-text">Cinema Collection</span>
     </h1>
-    <p class="lead text-muted mb-4">Premium art prints and collectible posters from cinema's greatest films</p>
+    <p class="lead text-muted mb-4">Premium art prints from movies and TV's greatest moments</p>
     <%= link_to "Shop Now", products_path, class: "btn btn-gold btn-lg px-5" %>
   </div>
 </div>
@@ -19,6 +19,7 @@
           <div class="category-card text-center p-4">
             <div class="gold-text fs-4 mb-2">🎬</div>
             <div class="fw-bold text-white"><%= category.name %></div>
+            <small class="text-muted"><%= category.products.count %> posters</small>
           </div>
         <% end %>
       </div>
@@ -28,32 +29,10 @@
 
 <%# Featured Products %>
 <div class="container my-5">
-  <h2 class="section-title mb-4">Featured Posters</h2>
+  <h2 class="section-title mb-4">Featured Titles</h2>
   <div class="row g-4">
     <% @products.each do |product| %>
-      <div class="col-6 col-md-4 col-lg-3">
-        <%= link_to product_path(product), class: "text-decoration-none" do %>
-          <div class="product-card h-100">
-            <div class="product-img-wrapper">
-              <% if product.image.attached? %>
-                <%= image_tag product.image, class: "product-img" %>
-              <% else %>
-                <div class="product-img-placeholder d-flex align-items-center justify-content-center">
-                  <span class="display-4">🎬</span>
-                </div>
-              <% end %>
-              <div class="product-overlay">
-                <span class="btn btn-gold btn-sm">View Poster</span>
-              </div>
-            </div>
-            <div class="product-info p-3">
-              <h6 class="text-white mb-1 text-truncate"><%= product.title %></h6>
-              <small class="text-muted"><%= product.category.name %></small>
-              <div class="gold-text fw-bold mt-1">$<%= number_with_precision(product.price, precision: 2) %></div>
-            </div>
-          </div>
-        <% end %>
-      </div>
+      <%= render "products/product_card", product: product %>
     <% end %>
   </div>
 </div>

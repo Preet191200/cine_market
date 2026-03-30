@@ -1,7 +1,9 @@
 <div class="container my-5">
   <div class="row g-5">
-    <div class="col-md-5">
-      <% if @product.image.attached? %>
+    <div class="col-md-4">
+      <% if @product.poster_url.present? %>
+        <img src="<%= @product.poster_url %>" class="img-fluid rounded shadow" alt="<%= @product.title %>">
+      <% elsif @product.image.attached? %>
         <%= image_tag @product.image, class: "img-fluid rounded shadow" %>
       <% else %>
         <div class="product-img-placeholder-lg d-flex align-items-center justify-content-center rounded">
@@ -9,20 +11,34 @@
         </div>
       <% end %>
     </div>
-    <div class="col-md-7">
-      <small class="gold-text text-uppercase tracking-wide"><%= @product.category.name %></small>
-      <h1 class="text-white fw-bold mt-2"><%= @product.title %></h1>
-      <div class="gold-text fs-3 fw-bold my-3">$<%= number_with_precision(@product.price, precision: 2) %></div>
-      <p class="text-muted"><%= @product.description %></p>
-      <div class="mt-2 mb-4">
+    <div class="col-md-8">
+      <small class="gold-text text-uppercase letter-spacing"><%= @product.category.name %></small>
+      <h1 class="text-white fw-bold mt-2 mb-3"><%= @product.title %></h1>
+      <div class="gold-text fs-2 fw-bold mb-4">$<%= number_with_precision(@product.price, precision: 2) %></div>
+      <p class="text-muted lh-lg"><%= @product.description %></p>
+      <div class="mb-4">
         <% if @product.stock_quantity > 0 %>
-          <span class="badge bg-success">In Stock (<%= @product.stock_quantity %> available)</span>
+          <span class="badge bg-success fs-6">✓ In Stock — <%= @product.stock_quantity %> available</span>
         <% else %>
-          <span class="badge bg-danger">Out of Stock</span>
+          <span class="badge bg-danger fs-6">Out of Stock</span>
         <% end %>
       </div>
-      <button class="btn btn-gold btn-lg px-5">Add to Cart</button>
-      <%= link_to "← Back to Browse", products_path, class: "btn btn-outline-secondary ms-3" %>
+
+      <% if user_signed_in? %>
+        <button class="btn btn-gold btn-lg px-5 me-3">🛒 Add to Cart</button>
+      <% else %>
+        <%= link_to "Sign in to Purchase", new_user_session_path, class: "btn btn-gold btn-lg px-5 me-3" %>
+      <% end %>
+      <%= link_to "← Back to Browse", products_path, class: "btn btn-outline-secondary" %>
+
+      <%# Comments section — coming soon %>
+      <hr class="border-secondary mt-5">
+      <h4 class="text-white mt-4 mb-3">Customer Reviews</h4>
+      <% if user_signed_in? %>
+        <p class="text-muted">Review functionality coming soon.</p>
+      <% else %>
+        <p class="text-muted"><%= link_to "Sign in", new_user_session_path, class: "gold-text" %> to leave a review.</p>
+      <% end %>
     </div>
   </div>
 </div>
