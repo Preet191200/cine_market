@@ -223,3 +223,5 @@ products.each do |data|
 end
 
 puts "✓ #{Product.count} products created"
+
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if AdminUser.count == 0
