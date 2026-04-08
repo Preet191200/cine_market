@@ -244,3 +244,16 @@ body {
     border-left: none !important;
   }
 }
+// ── Auth pages ────────────────────────────────────────
+.auth-wrapper {
+  background-color: $black;
+  padding: 2rem 1rem;
+}
+
+.auth-card {
+  background-color: $dark-card;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 520px;
+}

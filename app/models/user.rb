@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :orders
   has_one :address
 
+  accepts_nested_attributes_for :address, reject_if: :all_blank
+
   validates :name, presence: true
 
   def self.ransackable_attributes(auth_object = nil)

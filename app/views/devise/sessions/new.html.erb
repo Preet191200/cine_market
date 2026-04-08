@@ -1,0 +1,38 @@
+<div class="auth-wrapper d-flex align-items-center justify-content-center min-vh-100">
+  <div class="auth-card p-5">
+    <div class="text-center mb-4">
+      <h2 class="text-white fw-bold"><span class="gold-text">CINE</span> MARKET</h2>
+      <p class="text-muted">Sign in to your account</p>
+    </div>
+
+    <%= form_with model: resource, as: resource_name, url: session_path(resource_name), data: { turbo: false } do |f| %>
+      <% if flash[:alert] %>
+        <div class="alert alert-danger"><%= flash[:alert] %></div>
+      <% end %>
+
+      <div class="mb-3">
+        <label class="form-label text-muted">Email</label>
+        <%= f.email_field :email, class: "form-control dark-input", placeholder: "you@example.com", required: true %>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label text-muted">Password</label>
+        <%= f.password_field :password, class: "form-control dark-input", placeholder: "Your password", required: true %>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="form-check">
+          <%= f.check_box :remember_me, class: "form-check-input" %>
+          <label class="form-check-label text-muted small">Remember me</label>
+        </div>
+        <%= link_to "Forgot password?", new_user_password_path, class: "gold-text small" %>
+      </div>
+
+      <%= f.submit "Sign In", class: "btn btn-gold w-100 btn-lg" %>
+    <% end %>
+
+    <div class="text-center mt-4">
+      <p class="text-muted small">New to Cine Market? <%= link_to "Create an account", new_user_registration_path, class: "gold-text" %></p>
+    </div>
+  </div>
+</div>
