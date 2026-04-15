@@ -1,8 +1,9 @@
-<div class="container my-5">
-  <h2 class="section-title mb-4"><%= @category.name %></h2>
-  <div class="row g-4">
-    <% @products.each do |product| %>
-      <%= render "products/product_card", product: product %>
-    <% end %>
-  </div>
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb dark-breadcrumb">
+      <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+      <li class="breadcrumb-item"><%= link_to "Browse", products_path %></li>
+      <li class="breadcrumb-item active"><%= @category.name %></li>
+    </ol>
+  </nav>
 </div>

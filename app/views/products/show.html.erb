@@ -1,3 +1,13 @@
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb dark-breadcrumb">
+      <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+      <li class="breadcrumb-item"><%= link_to "Browse", products_path %></li>
+      <li class="breadcrumb-item"><%= link_to @product.category.name, category_path(@product.category) %></li>
+      <li class="breadcrumb-item active"><%= @product.title.truncate(40) %></li>
+    </ol>
+  </nav>
+</div>
 <div class="container my-5">
   <div class="row g-5">
     <div class="col-md-4">

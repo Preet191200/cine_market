@@ -6,7 +6,7 @@ $dark:       #141414;
 $dark-card:  #1c1c1c;
 $gold:       #c9a84c;
 $gold-light: #e8c96a;
-$muted:      #aaaaaa;
+$muted:      #777;
 
 // ── Base ──────────────────────────────────────────────
 body {
@@ -15,45 +15,12 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #ffffff;
-}
-
-p {
-  color: #cccccc;
-  line-height: 1.8;
-}
-
-small {
-  color: $muted;
-}
-
-label {
-  color: $muted;
-}
-
-a {
-  color: $gold;
-
-  &:hover {
-    color: $gold-light;
-  }
-}
-
 .gold-text {
-  color: $gold !important;
-}
-
-.text-muted {
-  color: $muted !important;
-}
-
-.text-white {
-  color: #ffffff !important;
+  color: $gold;
 }
 
 .section-title {
-  color: #ffffff;
+  color: white;
   font-weight: 700;
   font-size: 1.4rem;
   border-left: 4px solid $gold;
@@ -68,11 +35,11 @@ a {
   .navbar-brand {
     font-size: 1.3rem;
     letter-spacing: 2px;
-    color: #ffffff !important;
+    color: white !important;
   }
 
   .nav-link {
-    color: #cccccc !important;
+    color: #ccc !important;
     font-size: 0.9rem;
     letter-spacing: 0.5px;
     transition: color 0.2s;
@@ -86,7 +53,7 @@ a {
 // ── Gold button ───────────────────────────────────────
 .btn-gold {
   background-color: $gold;
-  color: #000000 !important;
+  color: #000;
   font-weight: 700;
   border: none;
   letter-spacing: 0.5px;
@@ -94,7 +61,7 @@ a {
 
   &:hover {
     background-color: $gold-light;
-    color: #000000 !important;
+    color: #000;
     transform: translateY(-1px);
   }
 }
@@ -112,10 +79,6 @@ a {
     inset: 0;
     background: radial-gradient(ellipse at center, rgba(201, 168, 76, 0.08) 0%, transparent 70%);
   }
-
-  h1, p {
-    color: #ffffff;
-  }
 }
 
 // ── Category cards ────────────────────────────────────
@@ -124,14 +87,6 @@ a {
   border: 1px solid #2a2a2a;
   border-radius: 8px;
   transition: border-color 0.2s, transform 0.2s;
-
-  .fw-bold {
-    color: #ffffff;
-  }
-
-  small, .text-muted {
-    color: $muted !important;
-  }
 
   &:hover {
     border-color: $gold;
@@ -170,13 +125,13 @@ a {
 .product-img-placeholder {
   width: 100%;
   height: 100%;
-  background-color: #222222;
+  background-color: #222;
 }
 
 .product-img-placeholder-lg {
   width: 100%;
   aspect-ratio: 2/3;
-  background-color: #222222;
+  background-color: #222;
 }
 
 .product-overlay {
@@ -192,31 +147,20 @@ a {
 
 .product-info {
   background-color: $dark-card;
-  padding: 0.75rem;
-
-  h6 {
-    color: #ffffff;
-  }
-
-  small {
-    color: $muted;
-  }
 }
 
-// ── Product show page ─────────────────────────────────
-.product-description {
-  color: #cccccc;
-  line-height: 1.8;
-  font-size: 1rem;
+// ── Footer ────────────────────────────────────────────
+.footer {
+  background-color: #0d0d0d;
+  border-top: 1px solid #2a2a2a;
 }
-
 // ── Cart ──────────────────────────────────────────────
 .cart-badge {
   position: absolute;
   top: 0;
   right: -8px;
   background: $gold;
-  color: #000000;
+  color: #000;
   font-size: 0.65rem;
   font-weight: 700;
   border-radius: 50%;
@@ -231,14 +175,6 @@ a {
   background-color: $dark-card;
   border: 1px solid #2a2a2a;
   border-radius: 8px;
-
-  h6 {
-    color: #ffffff;
-  }
-
-  small, .text-muted {
-    color: $muted !important;
-  }
 }
 
 .cart-item-img {
@@ -257,9 +193,9 @@ a {
 
 .qty-input {
   width: 65px !important;
-  background: #222222 !important;
-  border-color: #444444 !important;
-  color: #ffffff !important;
+  background: #222 !important;
+  border-color: #444 !important;
+  color: white !important;
 }
 
 .cart-summary {
@@ -268,51 +204,25 @@ a {
   border-radius: 8px;
   position: sticky;
   top: 80px;
-
-  h5 {
-    color: #ffffff;
-  }
-
-  p, span, div, small {
-    color: #cccccc;
-  }
-
-  .text-muted {
-    color: $muted !important;
-  }
-
-  .text-white {
-    color: #ffffff !important;
-  }
-
-  hr {
-    border-color: #2a2a2a;
-  }
 }
-
 // ── Forms ─────────────────────────────────────────────
 .dark-input {
   background-color: #1c1c1c !important;
   border-color: #3a3a3a !important;
-  color: #ffffff !important;
+  color: white !important;
 
   &:focus {
-    background-color: #222222 !important;
+    background-color: #222 !important;
     border-color: $gold !important;
     box-shadow: 0 0 0 0.2rem rgba(201, 168, 76, 0.15) !important;
-    color: #ffffff !important;
+    color: white !important;
   }
 
   option {
     background-color: #1c1c1c;
-    color: #ffffff;
-  }
-
-  &::placeholder {
-    color: #666666 !important;
+    color: white;
   }
 }
-
 // ── Search ────────────────────────────────────────────
 .search-bar-wrapper {
   background-color: $dark-card;
@@ -322,7 +232,7 @@ a {
 }
 
 .search-icon {
-  background-color: #222222;
+  background-color: #222;
   border-color: #3a3a3a;
   color: $gold;
 }
@@ -334,7 +244,6 @@ a {
     border-left: none !important;
   }
 }
-
 // ── Auth pages ────────────────────────────────────────
 .auth-wrapper {
   background-color: $black;
@@ -347,122 +256,41 @@ a {
   border-radius: 16px;
   width: 100%;
   max-width: 520px;
-
-  h2, h3, h4, h5 {
-    color: #ffffff;
-  }
-
-  p, span, label {
-    color: #cccccc;
-  }
 }
-
-// ── Orders ────────────────────────────────────────────
-.order-card {
-  background-color: $dark-card;
-  border: 1px solid #2a2a2a;
-  border-radius: 8px;
-
-  h6 {
-    color: #ffffff;
-  }
-
-  small, .text-muted {
-    color: $muted !important;
-  }
-}
-
-// ── Badges ────────────────────────────────────────────
-.badge {
-  font-size: 0.75rem;
-  padding: 0.4em 0.8em;
-}
-
-// ── Alerts ────────────────────────────────────────────
-.alert-success {
-  background-color: #1a3a1a;
-  border-color: #2d5a2d;
-  color: #90ee90;
-}
-
-.alert-danger {
-  background-color: #3a1a1a;
-  border-color: #5a2d2d;
-  color: #ffaaaa;
-}
-
-// ── Footer ────────────────────────────────────────────
-.footer {
-  background-color: #0d0d0d;
-  border-top: 1px solid #2a2a2a;
+// ── Static pages ──────────────────────────────────────
+.page-content {
+  color: #cccccc;
+  line-height: 1.9;
+  font-size: 1rem;
 
   p {
+    color: #cccccc;
+    margin-bottom: 1.2rem;
+  }
+}
+// ── Breadcrumbs ───────────────────────────────────────
+.dark-breadcrumb {
+  background: transparent;
+  padding: 0;
+
+  .breadcrumb-item {
     color: $muted;
-  }
-}
+    font-size: 0.875rem;
 
-// ── Horizontal rules ──────────────────────────────────
-hr {
-  border-color: #2a2a2a;
-  opacity: 1;
-}
-
-// ── Bootstrap overrides ───────────────────────────────
-.btn-outline-secondary {
-  color: #cccccc !important;
-  border-color: #555555 !important;
-
-  &:hover {
-    background-color: #333333 !important;
-    color: #ffffff !important;
-  }
-}
-
-.form-check-label {
-  color: #cccccc !important;
-}
-
-.form-check-input {
-  background-color: #1c1c1c;
-  border-color: #3a3a3a;
-}
-
-.table {
-  color: #cccccc;
-}
-
-.border-secondary {
-  border-color: #2a2a2a !important;
-}
-
-// ── Pagination ────────────────────────────────────────
-.pagination {
-  gap: 4px;
-
-  .page-item {
-    .page-link {
-      background-color: $dark-card;
-      border-color: #2a2a2a;
-      color: #cccccc;
-      border-radius: 6px !important;
+    a {
+      color: $muted;
+      text-decoration: none;
 
       &:hover {
-        background-color: $gold;
-        border-color: $gold;
-        color: #000000;
+        color: $gold;
       }
     }
 
-    &.active .page-link {
-      background-color: $gold;
-      border-color: $gold;
-      color: #000000;
-      font-weight: 700;
+    &.active {
+      color: $gold;
     }
 
-    &.disabled .page-link {
-      background-color: #111111;
-      border-color: #1a1a1a;
+    & + .breadcrumb-item::before {
       color: #444444;
     }
   }
