@@ -38,6 +38,19 @@ tv_shows   = Category.find_or_create_by!(name: "TV Shows")
 
 puts "✓ Categories created"
 
+# Pages
+Page.find_or_create_by!(slug: "about") do |p|
+  p.title   = "About Cine Market"
+  p.content = "Cine Market is a Winnipeg-based entertainment retail business specializing in movies and film merchandise. We have been operating for 12 years and employ 18 staff members.\n\nWe sell premium art prints and collectible posters from cinema's greatest films — including Blu-ray, DVD, and 4K Ultra HD movies along with movie collectibles, posters, and limited-edition box sets.\n\nOur mission is to bring the magic of cinema into your home. Whether you're a casual movie fan or a serious collector, we have something for everyone.\n\nVisit our store in Winnipeg or shop online for delivery across Canada."
+end
+
+Page.find_or_create_by!(slug: "contact") do |p|
+  p.title   = "Contact Us"
+  p.content = "We'd love to hear from you!\n\nEmail: hello@cinemarket.ca\nPhone: (204) 555-0192\nAddress: 123 Main Street, Winnipeg, Manitoba, R3C 1A1\n\nStore Hours:\nMonday – Friday: 10am – 8pm\nSaturday: 10am – 6pm\nSunday: 12pm – 5pm\n\nFor online order inquiries, please email us at orders@cinemarket.ca and we will respond within 24 hours."
+end
+
+puts "✓ Pages created"
+
 # Products — Movies & TV Shows with real TMDB poster URLs
 products = [
   # Classic Films
