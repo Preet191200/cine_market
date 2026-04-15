@@ -64,5 +64,14 @@
   <%= paginate @products %>
 </div>
   <% end %>
+  <%# Filter buttons %>
+<div class="d-flex gap-2 mb-4 flex-wrap">
+  <%= link_to "All", products_path(query: params[:query], category_id: params[:category_id]),
+        class: "btn btn-sm #{params[:filter].blank? ? 'btn-gold' : 'btn-outline-secondary'}" %>
+  <%= link_to "New Arrivals", products_path(filter: "new", query: params[:query], category_id: params[:category_id]),
+        class: "btn btn-sm #{params[:filter] == 'new' ? 'btn-gold' : 'btn-outline-secondary'}" %>
+  <%= link_to "Recently Updated", products_path(filter: "updated", query: params[:query], category_id: params[:category_id]),
+        class: "btn btn-sm #{params[:filter] == 'updated' ? 'btn-gold' : 'btn-outline-secondary'}" %>
+</div>
 
 </div>

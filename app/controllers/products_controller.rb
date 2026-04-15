@@ -13,6 +13,13 @@ class ProductsController < ApplicationController
       @products = @products.where(category_id: params[:category_id])
     end
 
+    case params[:filter]
+    when "new"
+      @products = @products.where("products.created_at >= ?", 3.days.ago)
+    when "updated"
+      @products = @products.where("products.updated_at >= ? AND products.created_at < ?", 3.days.ago, 3.days.ago)
+    end
+
     @products = @products.page(params[:page]).per(12)
   end
 
