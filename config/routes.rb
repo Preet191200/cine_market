@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "pages/show"
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
@@ -11,7 +12,8 @@ Rails.application.routes.draw do
 
   resources :products, only: [:index, :show]
   resources :categories, only: [:show]
-
+  
+  get "/pages/:slug", to: "pages#show", as: :page
   get  "/cart",                      to: "cart#show",   as: :cart
   post "/cart/add/:product_id",      to: "cart#add",    as: :add_to_cart
   patch "/cart/update/:product_id",  to: "cart#update", as: :update_cart
