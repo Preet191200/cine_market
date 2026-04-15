@@ -83,11 +83,15 @@
       <%= yield %>
     </main>
 
-    <footer class="footer mt-5 py-4">
-      <div class="container text-center">
-        <span class="gold-text fw-bold">CINE MARKET</span>
-        <p class="text-muted small mt-1">© <%= Date.current.year %> Cine Market. All rights reserved.</p>
-      </div>
-    </footer>
+   <footer class="footer mt-5 py-4">
+  <div class="container text-center">
+    <span class="gold-text fw-bold">CINE MARKET</span>
+    <p class="text-muted small mt-1">© <%= Date.current.year %> Cine Market. All rights reserved.</p>
+    <div class="mt-2">
+      <%= link_to "About Us", page_path("about"), class: "text-muted small me-3" %>
+      <%= link_to "Contact", page_path("contact"), class: "text-muted small" %>
+    </div>
+  </div>
+</footer>
   </body>
 </html>
