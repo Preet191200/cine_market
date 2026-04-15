@@ -13,7 +13,7 @@ class ProductsController < ApplicationController
       @products = @products.where(category_id: params[:category_id])
     end
 
-    @products = @products.all
+    @products = @products.page(params[:page]).per(12)
   end
 
   def show
