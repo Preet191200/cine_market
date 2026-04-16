@@ -8,24 +8,27 @@
     </ol>
   </nav>
 </div>
+
 <div class="container my-5">
   <div class="row g-5">
     <div class="col-md-4">
-      <% if @product.poster_url.present? %>
+      <% if @product.image.attached? %>
+        <%= image_tag @product.image.variant(:large), class: "img-fluid rounded shadow", alt: @product.title %>
+      <% elsif @product.poster_url.present? %>
         <img src="<%= @product.poster_url %>" class="img-fluid rounded shadow" alt="<%= @product.title %>">
-      <% elsif @product.image.attached? %>
-        <%= image_tag @product.image, class: "img-fluid rounded shadow" %>
       <% else %>
         <div class="product-img-placeholder-lg d-flex align-items-center justify-content-center rounded">
           <span style="font-size: 8rem;">🎬</span>
         </div>
       <% end %>
     </div>
+
     <div class="col-md-8">
-      <small class="gold-text text-uppercase letter-spacing"><%= @product.category.name %></small>
+      <small class="gold-text text-uppercase"><%= @product.category.name %></small>
       <h1 class="text-white fw-bold mt-2 mb-3"><%= @product.title %></h1>
       <div class="gold-text fs-2 fw-bold mb-4">$<%= number_with_precision(@product.price, precision: 2) %></div>
-      <p class="text-muted lh-lg"><%= @product.description %></p>
+      <p class="product-description"><%= @product.description %></p>
+
       <div class="mb-4">
         <% if @product.stock_quantity > 0 %>
           <span class="badge bg-success fs-6">✓ In Stock — <%= @product.stock_quantity %> available</span>
@@ -34,22 +37,78 @@
         <% end %>
       </div>
 
-     <% if user_signed_in? %>
- <%= form_with url: add_to_cart_path(@product.id), method: :post, class: "d-inline" do |f| %>
-    <%= f.number_field :quantity, value: 1, min: 1, max: 99, class: "form-control d-inline-block w-auto me-2", style: "background:#222; border-color:#444; color:white;" %>
-    <%= f.submit "🛒 Add to Cart", class: "btn btn-gold btn-lg px-5" %>
-  <% end %>
-<% else %>
-  <%= link_to "Sign in to Purchase", new_user_session_path, class: "btn btn-gold btn-lg px-5 me-3" %>
-<% end %>
-
-      <%# Comments section — coming soon %>
-      <hr class="border-secondary mt-5">
-      <h4 class="text-white mt-4 mb-3">Customer Reviews</h4>
       <% if user_signed_in? %>
-        <p class="text-muted">Review functionality coming soon.</p>
+        <%= form_with url: add_to_cart_path(@product.id), method: :post, data: { turbo: false }, class: "d-inline" do |f| %>
+          <%= f.number_field :quantity, value: 1, min: 1, max: 99, class: "form-control d-inline-block w-auto me-2", style: "background:#222; border-color:#444; color:white;" %>
+          <%= f.submit "🛒 Add to Cart", class: "btn btn-gold btn-lg px-5" %>
+        <% end %>
       <% else %>
-        <p class="text-muted"><%= link_to "Sign in", new_user_session_path, class: "gold-text" %> to leave a review.</p>
+        <%= link_to "Sign in to Purchase", new_user_session_path, class: "btn btn-gold btn-lg px-5 me-3" %>
+      <% end %>
+      <%= link_to "← Back to Browse", products_path, class: "btn btn-outline-secondary ms-2" %>
+    </div>
+  </div>
+
+  <%# Reviews Section %>
+  <hr class="border-secondary mt-5">
+  <div class="row mt-4">
+    <div class="col-lg-8">
+      <h4 class="text-white mb-4">Customer Reviews (<%= @product.reviews.count %>)</h4>
+
+      <% if @product.reviews.any? %>
+        <% @product.reviews.includes(:user).order(created_at: :desc).each do |review| %>
+          <div class="cart-item p-4 mb-3">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <span class="text-white fw-bold"><%= review.user.name %></span>
+                <span class="ms-2">
+                  <% review.rating.times do %><span class="gold-text">★</span><% end %>
+                  <% (5 - review.rating).times do %><span class="text-muted">★</span><% end %>
+                </span>
+                <small class="text-muted ms-2"><%= review.created_at.strftime("%B %d, %Y") %></small>
+              </div>
+              <% if user_signed_in? && review.user == current_user %>
+                <%= link_to "Remove", product_review_path(@product, review),
+                      data: { turbo_method: :delete, turbo_confirm: "Delete this review?" },
+                      class: "btn btn-outline-danger btn-sm" %>
+              <% end %>
+            </div>
+            <p class="text-muted mt-2 mb-0"><%= review.body %></p>
+          </div>
+        <% end %>
+      <% else %>
+        <p class="text-muted">No reviews yet. Be the first to leave one!</p>
+      <% end %>
+    </div>
+
+    <div class="col-lg-4">
+      <% if user_signed_in? %>
+        <% already_reviewed = @product.reviews.exists?(user: current_user) %>
+        <div class="cart-summary p-4">
+          <h5 class="text-white mb-4">Leave a Review</h5>
+          <% if already_reviewed %>
+            <p class="text-muted">You have already reviewed this title.</p>
+          <% else %>
+            <%= form_with url: product_reviews_path(@product), method: :post, data: { turbo: false } do |f| %>
+              <div class="mb-3">
+                <label class="form-label text-muted">Rating</label>
+                <%= f.select :rating,
+                      options_for_select([["★★★★★ — Excellent", 5], ["★★★★ — Good", 4], ["★★★ — Average", 3], ["★★ — Poor", 2], ["★ — Terrible", 1]]),
+                      { prompt: "Select a rating" },
+                      { class: "form-select dark-input" } %>
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-muted">Your Review</label>
+                <%= f.text_area :body, rows: 4, class: "form-control dark-input", placeholder: "Share your thoughts..." %>
+              </div>
+              <%= f.submit "Submit Review", class: "btn btn-gold w-100" %>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="cart-summary p-4 text-center">
+          <p class="text-muted"><%= link_to "Sign in", new_user_session_path, class: "gold-text" %> to leave a review.</p>
+        </div>
       <% end %>
     </div>
   </div>
