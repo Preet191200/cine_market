@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  get "pages/show"
   devise_for :users, controllers: {
-    registrations: 'users/registrations'
+    registrations: "users/registrations"
   }
 
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -10,10 +9,12 @@ Rails.application.routes.draw do
 
   root "home#index"
 
-  resources :products, only: [:index, :show]
-  resources :categories, only: [:show]
-  
-  get "/pages/:slug", to: "pages#show", as: :page
+  resources :products, only: [ :index, :show ] do
+    resources :reviews, only: [ :create, :destroy ]
+  end
+
+  resources :categories, only: [ :show ]
+
   get  "/cart",                      to: "cart#show",   as: :cart
   post "/cart/add/:product_id",      to: "cart#add",    as: :add_to_cart
   patch "/cart/update/:product_id",  to: "cart#update", as: :update_cart
@@ -23,8 +24,10 @@ Rails.application.routes.draw do
   post "/checkout/confirm",  to: "checkout#confirm", as: :checkout_confirm
   post "/checkout",          to: "checkout#create",  as: :checkout_create
 
-  resources :orders, only: [:index, :show]
+  resources :orders, only: [ :index, :show ]
 
   get  "/profile",          to: "users#show",           as: :profile
   post "/profile/address",  to: "users#update_address", as: :update_address
+
+  get "/pages/:slug", to: "pages#show", as: :page
 end
