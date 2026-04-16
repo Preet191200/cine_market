@@ -10,6 +10,6 @@ class User < ApplicationRecord
   validates :name, presence: true
 
   def self.ransackable_attributes(auth_object = nil)
-    ["id", "name", "email", "created_at", "updated_at"]
+    [ "id", "name", "email", "created_at", "updated_at" ]
   end
 end

@@ -7,10 +7,10 @@ class OrderItem < ApplicationRecord
   validates :tax_at_purchase, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   def self.ransackable_attributes(auth_object = nil)
-    ["id", "order_id", "product_id", "quantity", "price_at_purchase", "tax_at_purchase"]
+    [ "id", "order_id", "product_id", "quantity", "price_at_purchase", "tax_at_purchase" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["order", "product"]
+    [ "order", "product" ]
   end
 end
