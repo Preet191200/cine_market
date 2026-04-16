@@ -93,7 +93,7 @@
               <div class="mb-3">
                 <label class="form-label text-muted">Rating</label>
                 <%= f.select :rating,
-                      options_for_select([["★★★★★ — Excellent", 5], ["★★★★ — Good", 4], ["★★★ — Average", 3], ["★★ — Poor", 2], ["★ — Terrible", 1]]),
+                      options_for_select([ [ "★★★★★ — Excellent", 5 ], [ "★★★★ — Good", 4 ], [ "★★★ — Average", 3 ], [ "★★ — Poor", 2 ], [ "★ — Terrible", 1 ] ]),
                       { prompt: "Select a rating" },
                       { class: "form-select dark-input" } %>
               </div>

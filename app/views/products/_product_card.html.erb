@@ -2,10 +2,10 @@
   <%= link_to product_path(product), class: "text-decoration-none" do %>
     <div class="product-card h-100">
       <div class="product-img-wrapper">
-        <% if product.poster_url.present? %>
+        <% if product.image.attached? %>
+          <%= image_tag product.image.variant(:thumb), class: "product-img", alt: product.title %>
+        <% elsif product.poster_url.present? %>
           <img src="<%= product.poster_url %>" class="product-img" alt="<%= product.title %>">
-        <% elsif product.image.attached? %>
-          <%= image_tag product.image, class: "product-img", alt: product.title %>
         <% else %>
           <div class="product-img-placeholder d-flex align-items-center justify-content-center">
             <span class="display-4">🎬</span>
