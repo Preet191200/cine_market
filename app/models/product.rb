@@ -4,6 +4,7 @@ class Product < ApplicationRecord
     attachable.variant :thumb, resize_to_fill: [ 200, 300 ]
     attachable.variant :large, resize_to_fill: [ 400, 600 ]
   end
+  has_many :reviews, dependent: :destroy
 
   validates :title, presence: true
   validates :description, presence: true
