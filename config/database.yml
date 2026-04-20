@@ -13,5 +13,12 @@ test:
   database: cine_market_test
 
 production:
-  <<: *default
-  database: cine_market_production
+  primary:
+    <<: *default
+    database: cine_market_production
+    url: <%= ENV['DATABASE_URL'] %>
+  cable:
+    <<: *default
+    database: cine_market_production
+    url: <%= ENV['DATABASE_URL'] %>
+    migrations_paths: db/cable_migrate
